@@ -31,11 +31,10 @@ public class PdfController {
         try {
             Map<String, Object> data = getStringObjectMap();
             byteArrayOutputStream = PdfTemplateUtil.createPDF(data, "test.ftl");
-            // 设置响应消息头，告诉浏览器当前响应是一个下载文件
-            response.setContentType("application/x-msdownload");
+            // 设置响应消息头，告诉浏览器当前响应是一个PDF文档，并且应该在浏览器中内联显示
+            response.setContentType("application/pdf");
             // 告诉浏览器，当前响应数据要求用户干预保存到文件中，以及文件名是什么 如果文件名有中文，必须URL编码
-            String fileName = URLEncoder.encode("月度报告.pdf", "UTF-8");
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.setHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode("xxx报告.pdf", "UTF-8"));
             out = response.getOutputStream();
             byteArrayOutputStream.writeTo(out);
             byteArrayOutputStream.close();
